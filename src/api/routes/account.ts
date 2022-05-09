@@ -19,11 +19,15 @@ export default (app: Router) => {
           !user ? user : Promise.reject('invalid-username'),
         );
       }),
-      body('email').optional().isEmail(),
+      body('email').optional({ checkFalsy: true }).isEmail().normalizeEmail(),
       body('password').isLength({ min: 8 }).withMessage('invalid-password'),
     ]),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        if (req.body.email == '') {
+          req.body.email = null;
+        }
+
         const service = new AuthService();
         const { token } = await service.SignUp(req.body as Partial<UserAttributes>);
 
