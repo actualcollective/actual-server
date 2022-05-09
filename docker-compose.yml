@@ -1,0 +1,30 @@
+version: '3'
+services:
+  actual:
+    container_name: actual
+    build: ./
+    links:
+      - postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./public:/var/www/public
+      - ./tests:/var/www/tests
+      - ./src:/var/www/src
+    environment:
+      WAIT_HOSTS: postgres:5432
+
+  postgres:
+    container_name: postgres
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    volumes:
+      - postgres:/var/lib/postgresql/data:delegated
+
+volumes:
+  postgres:

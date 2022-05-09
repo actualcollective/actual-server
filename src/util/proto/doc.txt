@@ -1,0 +1,2 @@
+resource: https://github.com/improbable-eng/ts-protoc-gen
+cmd: protoc --plugin="protoc-gen-ts=./node_modules/.bin/protoc-gen-ts" --js_out="import_style=commonjs,binary:./src/util/proto" --ts_out="./src/util/proto" ./src/util/proto/sync.proto
