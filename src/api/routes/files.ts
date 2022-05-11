@@ -133,7 +133,7 @@ export default (app: Router) => {
         data: files.map((file) => ({
           deleted: false,
           fileId: file.id,
-          groupId: file.user_id,
+          groupId: file.group_id,
           name: file.name,
           encryptKeyId: file.encrypt_key_id,
         })),
@@ -164,7 +164,7 @@ export default (app: Router) => {
           data: {
             deleted: false,
             fileId: file.id,
-            groupId: file.user_id,
+            groupId: file.group_id,
             name: file.name,
             encryptMeta: file.encrypt_meta ? JSON.parse(file.encrypt_meta) : null,
           },
