@@ -20,6 +20,6 @@ export interface MessageBinaryAttributes {
   user_id: string;
   group_id: string;
   is_encrypted: boolean;
-  content: string;
+  content: Uint8Array;
   timestamp: string;
 }
