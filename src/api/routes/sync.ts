@@ -14,7 +14,7 @@ export default (app: Router) => {
       const buffer = await service.Sync(req);
 
       res.set('Content-Type', 'application/actual-sync');
-      res.send(Buffer.from(buffer));
+      res.send(buffer);
     } catch (e) {
       return next(e);
     }
