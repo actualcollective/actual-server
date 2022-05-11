@@ -38,7 +38,7 @@ export default class SyncService {
   private async syncMessages(
     userId: string,
     groupId: string,
-    messages: MessageEnvelope.AsObject[],
+    messages: MessageEnvelope[],
     since: string,
   ): Promise<{ merkleContent: object; newMessages: MessageBinaryModel[] }> {
     const newMessages = await MessageBinary.findAll({
@@ -59,9 +59,9 @@ export default class SyncService {
             await MessageBinary.create({
               user_id: userId,
               group_id: groupId,
-              timestamp: message.timestamp,
-              is_encrypted: message.isencrypted,
-              content: Buffer.from(message.content).toString(),
+              timestamp: message.getTimestamp(),
+              is_encrypted: message.getIsencrypted(),
+              content: Buffer.from(message.getContent_asU8()),
             });
           } catch (e) {
             if (e instanceof UniqueConstraintError) {
@@ -70,7 +70,7 @@ export default class SyncService {
             throw e;
           }
 
-          merkleContent = merkleUtil.insert(merkleContent, Timestamp.parse(message.timestamp));
+          merkleContent = merkleUtil.insert(merkleContent, Timestamp.parse(message.getTimestamp()));
         }
       }
 
@@ -87,18 +87,18 @@ export default class SyncService {
     return { merkleContent, newMessages };
   }
 
-  public async Sync(req: Request): Promise<Uint8Array> {
-    let protoReq: null | SyncRequest.AsObject = null;
+  public async Sync(req: Request): Promise<unknown> {
+    let protoReq: null | SyncRequest = null;
     let file: null | FileModel = null;
 
     try {
-      protoReq = Proto.SyncRequest.deserializeBinary(req.body).toObject();
+      protoReq = Proto.SyncRequest.deserializeBinary(req.body);
     } catch (e) {
       throw new ActualError('internal-error');
     }
-    protoReq.messagesList;
+
     try {
-      const result = await this.fileService.GetFile(protoReq.fileid, req.currentUser.id);
+      const result = await this.fileService.GetFile(protoReq.getFileid(), req.currentUser.id);
       file = result.file;
     } catch (e) {
       throw new ActualError('file-not-found');
@@ -118,7 +118,7 @@ export default class SyncService {
     // The changes being synced are part of an old group, which
     // means the file has been reset. User needs to re-download.
     // -- copied from original implementation
-    if (file.group_id !== protoReq.groupid) {
+    if (file.group_id !== protoReq.getGroupid()) {
       throw new ActualError('file-has-reset');
     }
 
@@ -138,15 +138,15 @@ export default class SyncService {
     // tell the user that they need to generate the correct key
     // (which necessitates a sync reset so they need to re-download).
     // -- copied from original implementation
-    if (protoReq.keyid && file.encrypt_key_id !== protoReq.keyid) {
+    if (protoReq.getKeyid() && file.encrypt_key_id !== protoReq.getKeyid()) {
       throw new ActualError('file-has-new-key');
     }
 
     const { merkleContent, newMessages } = await this.syncMessages(
       req.currentUser.id,
       file.group_id,
-      protoReq.messagesList,
-      protoReq.since,
+      protoReq.getMessagesList(),
+      protoReq.getSince(),
     );
 
     const protoRes = new Proto.SyncResponse();
@@ -155,11 +155,11 @@ export default class SyncService {
     for (const binary of newMessages) {
       const message = new MessageEnvelope();
       message.setTimestamp(binary.timestamp);
-      message.setIsencrypted(binary.is_encrypted !== null ? binary.is_encrypted : false);
+      message.setIsencrypted(binary.is_encrypted);
       message.setContent(binary.content);
       protoRes.addMessages(message);
     }
 
-    return protoRes.serializeBinary();
+    return Buffer.from(protoRes.serializeBinary());
   }
 }
