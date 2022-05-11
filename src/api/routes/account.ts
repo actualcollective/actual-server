@@ -15,8 +15,12 @@ export default (app: Router) => {
     '/signup',
     validate([
       body('username').custom((value) => {
+        if (value === '' || value === null) {
+          throw Error('invalid-username');
+        }
+
         return User.findOne({ where: { username: value } }).then((user) =>
-          !user ? user : Promise.reject('invalid-username'),
+          !user ? user : Promise.reject('username-already-given'),
         );
       }),
       body('email').optional({ checkFalsy: true }).isEmail().normalizeEmail(),
