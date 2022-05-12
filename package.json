@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "nodemon",
+    "db:migrate": "npx sequelize-cli db:migrate",
     "inspect": "nodemon --inspect src/app.ts"
   },
   "keywords": [
