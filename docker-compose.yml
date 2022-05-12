@@ -8,8 +8,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./public:/var/www/public
-      - ./tests:/var/www/tests
       - ./src:/var/www/src
     environment:
       WAIT_HOSTS: postgres:5432
