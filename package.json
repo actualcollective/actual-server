@@ -1,6 +1,6 @@
 {
   "name": "actual-server",
-  "version": "1.0.0",
+  "version": "0.9.8",
   "description": "reimplementation of the official actual-server in typescript with multi-account support",
   "main": "src/app.ts",
   "scripts": {
@@ -11,9 +11,15 @@
   },
   "keywords": [
     "actual",
+    "server",
+    "typescript",
     "collective"
   ],
-  "author": "Actual Collective <help@actualcollective.com>",
+  "author": {
+    "name": "Steven Steinrücken",
+    "email": "info@steven-steinruecken.de",
+    "url": "https://github.com/skcxck"
+  },
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.85.0",
