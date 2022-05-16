@@ -17,7 +17,7 @@ export default (app: Router) => {
     attachCurrentUser,
     validate([
       body('fileId').custom((value, { req }) => {
-        return File.findOne({ where: { id: value, user_id: req.currentUser.id } }).then(file => {
+        return File.findOne({ where: { id: value, user_id: req.currentUser.id } }).then((file) => {
           return file ? file : Promise.reject('file-not-found');
         });
       }),
@@ -27,8 +27,6 @@ export default (app: Router) => {
         const { fileId } = req.body;
         const service = new FileService();
 
-        // seems to be an anti-pattern to select the encryption details from a random file. Might be wise to
-        // move them to the user or a new object
         const { file } = await service.GetFile(fileId, req.currentUser.id);
 
         return res.send({
@@ -47,7 +45,7 @@ export default (app: Router) => {
     attachCurrentUser,
     validate([
       body('fileId').custom((value, { req }) => {
-        return File.findOne({ where: { id: value, user_id: req.currentUser.id } }).then(file => {
+        return File.findOne({ where: { id: value, user_id: req.currentUser.id } }).then((file) => {
           return file ? file : Promise.reject('file-not-found');
         });
       }),

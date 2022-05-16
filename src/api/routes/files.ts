@@ -22,11 +22,6 @@ export default (app: Router) => {
       //header('x-actual-file-id'),
       //header('x-actual-group-id')
       //  .optional()
-      //  .custom(value => {
-      //    return User.findOne({ where: { id: value } }).then(user =>
-      //      user ? user : Promise.reject('account-mismatch'),
-      //    );
-      //  }),
       //header('x-actual-encrypt-meta').optional,
       //header('x-actual-format').optional,
     ]),
