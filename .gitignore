@@ -15,3 +15,5 @@ build
 /.idea
 /docker
 /public/*
+
+docker-compose.override.yml

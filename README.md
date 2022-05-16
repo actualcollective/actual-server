@@ -35,6 +35,7 @@ docker-compose up
 - [@jlongster](https://github.com/jlongster) for [actual](https://github.com/actualbudget), merkle and timestamp implementation
 ## Todos
 - implement file rename endpoint
+- fix header validation
 - bank sync support
 - server-side transaction api
 - Support for the official client
