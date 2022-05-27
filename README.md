@@ -1,6 +1,8 @@
 This is a reimplementation of the official [actual-server](https://github.com/actualbudget/actual-server) in typescript featuring multi-account support
 
 ---
+## Features
+- (**Experimental**) Bank sync support through [actual-plaid](https://github.com/actualcollective/actual-plaid) and [actual-nordigen](https://github.com/actualcollective/actual-nordigen)
 ## Requirements
 - S3 compatible storage
 ## Usage
@@ -36,7 +38,5 @@ docker-compose up
 ## Todos
 - implement file rename endpoint
 - fix header validation
-- bank sync support
-- server-side transaction api
 - Support for the official client
 - self-host capabilities (filesystem with both support for s3/local)
