@@ -24,7 +24,7 @@ export default ({ app }: { app: express.Application }) => {
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors());
   // Middleware to increase actual performance and prevent weird behaviour
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     res.header('Cross-Origin-Embedder-Policy', 'require-corp');
     res.header('Cross-Origin-Opener-Policy', 'same-origin');
     next();
@@ -36,6 +36,8 @@ export default ({ app }: { app: express.Application }) => {
   app.use(bodyParser.raw({ type: 'application/encrypted-file', limit: '50mb' }));
   // Load API routes
   app.use(routes());
+  app.use('/link', express.static('public', { extensions: ['html'] }));
+  app.use('/assets', express.static('public/assets'));
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
     const err = new Error('Not Found');

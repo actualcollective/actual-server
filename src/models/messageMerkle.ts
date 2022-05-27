@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes } from 'sequelize';
 import { db } from '../loaders/sequelize';
+import BaseAttributes from '../interfaces/baseAttributes';
 
 const attributes: SequelizeAttributes<MessageMerkleAttributes> = {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -9,7 +10,7 @@ const attributes: SequelizeAttributes<MessageMerkleAttributes> = {
   merkle: { type: DataTypes.TEXT },
 };
 
-export type MessageMerkleModel = Sequelize.Model<MessageMerkleAttributes> & MessageMerkleAttributes;
+export type MessageMerkleModel = Sequelize.Model<MessageMerkleAttributes> & MessageMerkleAttributes & BaseAttributes;
 
 export const MessageMerkle = db.define<MessageMerkleModel, MessageMerkleAttributes>('MessageMerkle', attributes);
 

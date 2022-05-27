@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes } from 'sequelize';
 import { db } from '../loaders/sequelize';
+import BaseAttributes from '../interfaces/baseAttributes';
 
 const attributes: SequelizeAttributes<MessageBinaryAttributes> = {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -11,7 +12,7 @@ const attributes: SequelizeAttributes<MessageBinaryAttributes> = {
   timestamp: { type: DataTypes.STRING, unique: true },
 };
 
-export type MessageBinaryModel = Sequelize.Model<MessageBinaryAttributes> & MessageBinaryAttributes;
+export type MessageBinaryModel = Sequelize.Model<MessageBinaryAttributes> & MessageBinaryAttributes & BaseAttributes;
 
 export const MessageBinary = db.define<MessageBinaryModel, MessageBinaryAttributes>('MessageBinary', attributes);
 

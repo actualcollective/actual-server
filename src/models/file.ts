@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes } from 'sequelize';
 import { db } from '../loaders/sequelize';
+import BaseAttributes from '../interfaces/baseAttributes';
 
 const attributes: SequelizeAttributes<FileAttributes> = {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -15,7 +16,7 @@ const attributes: SequelizeAttributes<FileAttributes> = {
   name: { type: DataTypes.STRING },
 };
 
-export type FileModel = Sequelize.Model<FileAttributes> & FileAttributes;
+export type FileModel = Sequelize.Model<FileAttributes> & FileAttributes & BaseAttributes;
 
 export const File = db.define<FileModel, FileAttributes>('File', attributes);
 

@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes } from 'sequelize';
 import { db } from '../loaders/sequelize';
+import BaseAttributes from '../interfaces/baseAttributes';
 
 const attributes: SequelizeAttributes<UserAttributes> = {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
@@ -10,7 +11,7 @@ const attributes: SequelizeAttributes<UserAttributes> = {
   salt: { type: DataTypes.STRING, allowNull: false },
 };
 
-export type UserModel = Sequelize.Model<UserAttributes> & UserAttributes;
+export type UserModel = Sequelize.Model<UserAttributes> & UserAttributes & BaseAttributes;
 
 export const User = db.define<UserModel, UserAttributes>('User', attributes, {
   defaultScope: { attributes: { exclude: ['password', 'salt'] } },
