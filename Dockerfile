@@ -1,6 +1,16 @@
 FROM node:18-alpine3.14
 
+ARG API_URL
+
+ENV VITE_API_ENDPOINT=$API_URL
+
 COPY      . /var/www
+
+WORKDIR   /var/www/web
+
+RUN yarn install
+RUN yarn build
+
 WORKDIR   /var/www
 
 RUN yarn install

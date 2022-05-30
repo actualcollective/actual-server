@@ -1,3 +1,3 @@
 export default {
-  url: 'http://localhost:8080',
+  url: import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8080',
 };

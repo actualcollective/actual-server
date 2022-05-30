@@ -2,7 +2,10 @@ version: '3'
 services:
   actual:
     container_name: actual
-    build: ./
+    build:
+      context: ./
+      args:
+        API_URL: ${APP_URL}
     links:
       - postgres
     ports:
