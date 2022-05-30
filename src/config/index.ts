@@ -14,6 +14,7 @@ export default {
   mode: 'development',
   databaseURL: process.env.POSTGRES_URI,
   jwtSecret: process.env.JWT_SECRET,
+  registrationCode: process.env.REGISTRATION_CODE,
   logs: {
     level: process.env.LOG_LEVEL || 'silly',
   },

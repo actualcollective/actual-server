@@ -4,6 +4,7 @@ import { body } from 'express-validator';
 import { Integration } from '../../models/integration';
 import IntegrationService from '../../services/integration';
 import attachWebToken from '../middlewares/attachWebToken';
+import requireRegCode from '../middlewares/requireRegCode';
 
 const route = Router();
 
@@ -35,6 +36,7 @@ export default (app: Router) => {
 
   route.post(
     '/register',
+    requireRegCode,
     validate([
       body('url'),
       body('name').custom((value) => {
